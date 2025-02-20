@@ -55,7 +55,12 @@ public class CreepMovement : MonoBehaviour
         {
             case EnemyState.IDLE:
                 agent.destination = originPos;
-                foreach(Animator anim in animator) anim.SetBool(hashIsMove, false);
+                foreach (Animator anim in animator)
+                {
+                    if(agent.remainingDistance < 3f) anim.SetBool(hashIsMove, false);
+                    //원래 자리로 돌아갈 때 걷는 애니메이션 실행되도록 함.
+                    else anim.SetBool(hashIsMove, true);
+                }
                 break;
             case EnemyState.TRACE:
                 agent.destination = target.position;
