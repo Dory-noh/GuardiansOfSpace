@@ -26,7 +26,7 @@ public class PlayerInput : MonoBehaviour
     }
     void OnMove(InputValue value)
     {
-        Debug.Log("Move");
+        //Debug.Log("Move");
         Vector2 pos = value.Get<Vector2>();
         posX = pos.x;
         posY = pos.y;
@@ -34,14 +34,14 @@ public class PlayerInput : MonoBehaviour
 
     void OnLook(InputValue value)
     {
-        Debug.Log("RotateToMouseX");
+       // Debug.Log("RotateToMouseX");
         Vector2 dir = value.Get<Vector2>();
         rotate = dir.x;
     }
 
     void OnJump(InputValue value)
     {
-        Debug.Log("Jump");
+        //Debug.Log("Jump");
         if(jump == false)
         {
             jump = true;
@@ -65,7 +65,7 @@ public class PlayerInput : MonoBehaviour
 
     void OnFire(InputValue value)
     {
-        Debug.Log("Fire1");
+        //Debug.Log("Fire1");
         if(fire == false)
         {
             fire = true;
@@ -82,7 +82,7 @@ public class PlayerInput : MonoBehaviour
 
     void OnReload(InputValue value)
     {
-        Debug.Log("Reload");
+        //Debug.Log("Reload");
         reload = true;
     }
 

@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 dir;
     bool isJump = false;
     bool isStop = false;
+    private Vector3 jumpEndPosition; //점프 종료 위치 저장
     //private Rigidbody rb;
     private CharacterController cc;
     private Animator animator;
@@ -88,6 +89,14 @@ public class PlayerMovement : MonoBehaviour
     public void ResetMoveJump()
     {
         isJump = false;
+        jumpEndPosition = transform.position;
+        StartCoroutine(saveJumpPos());
+    }
+    IEnumerator saveJumpPos()
+    {
+        yield return null;
+        
+        transform.position = jumpEndPosition;
     }
 
     public void Attack()
