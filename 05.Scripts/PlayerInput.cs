@@ -80,6 +80,17 @@ public class PlayerInput : MonoBehaviour
         fire = false;
     }
 
+    void OnFire2(InputValue value)
+    {
+        //Debug.Log("Fire1");
+        if (fire == false)
+        {
+            fire = true;
+            StartCoroutine(isFireReset());
+            movement.Attack2();
+        }
+    }
+
     void OnReload(InputValue value)
     {
         //Debug.Log("Reload");

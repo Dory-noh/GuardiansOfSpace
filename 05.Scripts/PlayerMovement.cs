@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 0f;
     public float rotateSpeed = 60f;
     public float gravity = -9.81f; // 중력 값
+    Vector3 moveDirection;
     float damping = 5f;
     private Vector3 velocity;
     public bool isMoving = false;
@@ -27,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private int hashStopJump = Animator.StringToHash("StopJump");
     private int hashMoveJump = Animator.StringToHash("MoveJump");
     private int hashAttack = Animator.StringToHash("Attack");
+    private int hashAttack2 = Animator.StringToHash("Attack2");
 
     void Start()
     {
@@ -50,6 +52,16 @@ public class PlayerMovement : MonoBehaviour
             animator.SetFloat(hashSpeed, moveSpeed);
         }
     }
+    private void OnAnimatorMove()
+    {
+        if (isJump)
+        {
+            Vector3 rootPosition = animator.rootPosition;
+            Vector3 deltaPosition = rootPosition - transform.position;
+            velocity.y = deltaPosition.y;
+            cc.Move(new Vector3(deltaPosition.x, 0f, deltaPosition.z));
+        }
+    }
 
     private void Rotate()
     {
@@ -58,8 +70,9 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Move()
     {
-        Vector3 moveDirection = (input.posX * transform.right +input.posY * transform.forward).normalized;
+        moveDirection = (input.posX * transform.right +input.posY * transform.forward).normalized;
         //rb.MovePosition(rb.position + moveDistance);
+        //if (isJump) return;
         if (cc.isGrounded)
         {
             velocity.y = 0f;
@@ -89,14 +102,6 @@ public class PlayerMovement : MonoBehaviour
     public void ResetMoveJump()
     {
         isJump = false;
-        jumpEndPosition = transform.position;
-        StartCoroutine(saveJumpPos());
-    }
-    IEnumerator saveJumpPos()
-    {
-        yield return null;
-        
-        transform.position = jumpEndPosition;
     }
 
     public void Attack()
@@ -105,6 +110,15 @@ public class PlayerMovement : MonoBehaviour
         {
             isStop = true;
             animator.SetTrigger(hashAttack);
+        }
+    }
+    public void Attack2()
+    {
+        Debug.Log("발사");
+        if (isStop == false)
+        {
+            isStop = true;
+            animator.SetTrigger(hashAttack2);
         }
     }
 
