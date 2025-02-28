@@ -38,11 +38,11 @@ public class EnemyMovement : MonoBehaviour
 
     void Update()
     {
-        if (agent.remainingDistance < attackDistance)
+        if (Vector3.Distance(transform.position, target.position) <= attackDistance)
         {
             state = EnemyState.ATTACK;
         }
-        else if (agent.remainingDistance < traceDistance)
+        else if (Vector3.Distance(transform.position, target.position) <= traceDistance)
         {
             state = EnemyState.TRACE;
         }
@@ -57,16 +57,26 @@ public class EnemyMovement : MonoBehaviour
                 agent.destination = originPos;
                 foreach (Animator anim in animator)
                 {
-                    if(agent.remainingDistance < 3f) anim.SetBool(hashIsMove, false);
+                    if (agent.remainingDistance < 3f)
+                    {
+                        anim.SetBool(hashIsMove, false);
+                        agent.isStopped = true;
+                    }
                     //원래 자리로 돌아갈 때 걷는 애니메이션 실행되도록 함.
-                    else anim.SetBool(hashIsMove, true);
+                    else
+                    {
+                        anim.SetBool(hashIsMove, true);
+                        agent.isStopped = false;
+                    }
                 }
                 break;
             case EnemyState.TRACE:
+                agent.isStopped = false;
                 agent.destination = target.position;
                 foreach (Animator anim in animator) anim.SetBool(hashIsMove, true);
                 break;
             case EnemyState.ATTACK:
+                agent.isStopped = false;
                 agent.destination = target.position;
                 transform.LookAt(target.position);
                 foreach (Animator anim in animator)

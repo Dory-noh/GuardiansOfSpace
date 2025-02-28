@@ -4,23 +4,33 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public enum WeaponMode
+    {
+        NONE,
+        GUN
+    }
+    public WeaponMode m_WeaponMode;
     public float walkSpeed = 3f;
     public float runSpeed = 7f;
     public float moveSpeed = 0f;
     public float rotateSpeed = 60f;
     public float gravity = -9.81f; // 중력 값
     Vector3 moveDirection;
-    float damping = 5f;
+    //float damping = 5f;
     private Vector3 velocity;
     public bool isMoving = false;
     PlayerInput input;
     public Vector3 dir;
     bool isJump = false;
     bool isStop = false;
+    public bool isGun = true;
     private Vector3 jumpEndPosition; //점프 종료 위치 저장
     //private Rigidbody rb;
     private CharacterController cc;
     private Animator animator;
+    public GameObject Gun;
+    public Transform gunRightHandAttachment;
+    public Transform gunBackAttachment;
 
     private int hashPosX = Animator.StringToHash("PosX");
     private int hashPosY = Animator.StringToHash("PosY");
@@ -29,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     private int hashMoveJump = Animator.StringToHash("MoveJump");
     private int hashAttack = Animator.StringToHash("Attack");
     private int hashAttack2 = Animator.StringToHash("Attack2");
+    private int hashIsGun = Animator.StringToHash("IsGun");
 
     void Start()
     {
@@ -40,6 +51,28 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha1)||Input.GetKeyDown(KeyCode.Keypad1))
+        {
+            isGun = !isGun;
+        }
+
+        if (isGun) m_WeaponMode = WeaponMode.GUN;
+        else m_WeaponMode = WeaponMode.NONE;
+
+        switch (m_WeaponMode)
+        {
+            case WeaponMode.NONE:
+                Gun.transform.position = gunBackAttachment.transform.position;
+                Gun.transform.rotation = gunBackAttachment.rotation;
+                animator.SetBool(hashIsGun, isGun);
+                break;
+            case WeaponMode.GUN:
+                Gun.transform.position = gunRightHandAttachment.transform.position;
+                Gun.transform.rotation = gunRightHandAttachment.rotation;
+                animator.SetBool(hashIsGun, isGun);
+                break;
+
+        }
         if (isStop==false)
         {
             isMoving = (input.posX == 0 && input.posY == 0) ? false : true;
@@ -110,17 +143,21 @@ public class PlayerMovement : MonoBehaviour
         {
             isStop = true;
             animator.SetTrigger(hashAttack);
+            if(isGun == true)
+            {
+                Gun.GetComponent<LaserGun>().Shoot();
+            }
         }
     }
-    public void Attack2()
-    {
-        Debug.Log("발사");
-        if (isStop == false)
-        {
-            isStop = true;
-            animator.SetTrigger(hashAttack2);
-        }
-    }
+    //public void Attack2()
+    //{
+    //    Debug.Log("발사");
+    //    if (isStop == false)
+    //    {
+    //        isStop = true;
+    //        animator.SetTrigger(hashAttack2);
+    //    }
+    //}
 
     public void AllowMove() //공격 끝나면 isAttack false로 만드는 메서드
     {

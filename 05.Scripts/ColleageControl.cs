@@ -72,6 +72,7 @@ public class ColleageControl : MonoBehaviour
         {
             case ColleageState.IDLE:
                 agent.destination = player.transform.position;
+                animator.ResetTrigger(hashAttack);
                 animator.SetBool(hashIsMove, false);
                 agent.isStopped = true;
                 break;

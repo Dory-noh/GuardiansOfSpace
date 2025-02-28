@@ -14,15 +14,7 @@ public class LaserGun : MonoBehaviour
         FirePos = transform.GetChild(3).transform;
     }
 
-    void Update()
-    {
-        if (Input.GetButtonDown("Fire2"))
-        {
-            Shoot();
-        }
-    }
-
-    void Shoot()
+    public void Shoot()
     {
         RaycastHit hit;
         if (Physics.Raycast(FirePos.position, transform.forward, out hit, 100f))
