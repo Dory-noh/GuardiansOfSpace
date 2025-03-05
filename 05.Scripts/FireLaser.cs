@@ -26,7 +26,7 @@ public class FireLaser : MonoBehaviour
     IEnumerator ShowLaser(RaycastHit hitInfo)
     {
         lineRenderer.SetPosition(0, FirePos.position);
-        lineRenderer.SetPosition(1, hitInfo.point+new Vector3(0f,1f,0f));
+        lineRenderer.SetPosition(1, hitInfo.point+new Vector3(0f,-1f,-1f));
         lineRenderer.enabled = true;
 
         yield return new WaitForSeconds(1f);

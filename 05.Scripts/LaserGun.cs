@@ -19,10 +19,8 @@ public class LaserGun : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(FirePos.position, transform.forward, out hit, 100f))
         {
-            Debug.Log(hit.collider.name + "맞음");
             if (hit.transform.CompareTag("Enemy"))
             {
-                Debug.Log("발사");
                 //GameObject bullet = Instantiate(bulletPrefab, FirePos);
                 //bullet.GetComponent<Rigidbody>().AddForce(hit.transform.forward);
                 //Destroy(bullet, 3f);
