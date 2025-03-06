@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public float runSpeed = 7f;
     public float moveSpeed = 0f;
     public float rotateSpeed = 60f;
-    public float gravity = -9.81f; // 중력 값
+    public float gravity = -20f; // 중력 값. 값을 크게 해서 허공에 떠 있는 시간을 줄인다.
     Vector3 moveDirection;
     //float damping = 5f;
     private Vector3 velocity;
