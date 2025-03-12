@@ -13,10 +13,14 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
-    private bool isOver = false;
+    private bool isGameOver = false;
     public bool IsGameover
     {
-        get { return isOver; }
+        get { return isGameOver; }
+        set
+        {
+            isGameOver = value;
+        }
     }
     private void Awake()
     {

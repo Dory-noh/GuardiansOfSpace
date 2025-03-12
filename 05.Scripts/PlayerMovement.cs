@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -51,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (GameManager.Instance.IsGameover) return;
         if (Input.GetKeyDown(KeyCode.Alpha1)||Input.GetKeyDown(KeyCode.Keypad1))
         {
             isGun = !isGun;
@@ -164,4 +166,11 @@ public class PlayerMovement : MonoBehaviour
         isStop = false;
         if (isJump == true) isJump = false;
     }
+
+    public void Die()
+    {
+        GameManager.Instance.IsGameover = true;
+        UIManager.Instance.ToggleHelpUI(1, true);
+    }
+
 }
