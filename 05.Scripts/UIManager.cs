@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class UIManager : MonoBehaviour
 {
@@ -9,13 +11,19 @@ public class UIManager : MonoBehaviour
     {
         get
         {
-            if (instance == null) FindObjectOfType<UIManager>();
+            if (instance == null) instance = FindObjectOfType<UIManager>();
+            
             return instance;
         }
     }
 
-    [SerializeField] GameObject[] UI;
+    public UnityEvent SetQuestComplete;
 
+    [SerializeField] GameObject[] UI;
+    public Slider healthSlider; //체력을 표시할 UI 슬라이더
+    [SerializeField] private GameObject Player;
+    [SerializeField] private Image[] Quests;
+    
     private void Awake()
     {
         if(instance == null) instance = this;
@@ -27,8 +35,14 @@ public class UIManager : MonoBehaviour
         UI[idx].SetActive(isShow);
     }
 
-    private void Update()
+    public void ResetPlayerHpBar()
     {
+        healthSlider.maxValue = Player.GetComponent<PlayerHealth>().startingHealth;
 
+        Debug.Log(healthSlider.maxValue);
+
+        healthSlider.value = Player.GetComponent<PlayerHealth>().health;
+
+        Debug.Log(healthSlider.value);
     }
 }
