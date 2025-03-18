@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour
 
     public UnityEvent SetQuestComplete;
 
-    [SerializeField] GameObject[] UI;
+    public GameObject[] UI;
     public Slider healthSlider; //체력을 표시할 UI 슬라이더
     [SerializeField] private GameObject Player;
     [SerializeField] private Image[] Quests;
@@ -39,10 +39,7 @@ public class UIManager : MonoBehaviour
     {
         healthSlider.maxValue = Player.GetComponent<PlayerHealth>().startingHealth;
 
-        Debug.Log(healthSlider.maxValue);
-
         healthSlider.value = Player.GetComponent<PlayerHealth>().health;
 
-        Debug.Log(healthSlider.value);
     }
 }

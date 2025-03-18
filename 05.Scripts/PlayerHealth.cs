@@ -59,18 +59,6 @@ public class PlayerHealth : LivingEntity
         Invoke("Respawn", 3f);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        //아이템과 충돌한 경우 해당 아이템을 가방에 넣는다.
-        IItem item = other.GetComponent<IItem>();
-
-        //item로 부터 IItem 가저오는데 성공했다면(item이 null이 아니라면)
-        if(item != null)
-        {
-            item.Use(gameObject);
-        }
-        //소리 재생
-    }
 
     public void Respawn()
     {

@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject Gun;
     public Transform gunRightHandAttachment;
     public Transform gunBackAttachment;
+    IItem item;
 
     private int hashPosX = Animator.StringToHash("PosX");
     private int hashPosY = Animator.StringToHash("PosY");
@@ -50,13 +51,20 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        //아이템과 충돌한 경우 해당 아이템을 가방에 넣는다.
+        item = other.GetComponent<IItem>();
+    }
+
     void FixedUpdate()
     {
         if (GameManager.Instance.IsGameover) return;
-        if (Input.GetKeyDown(KeyCode.Alpha1)||Input.GetKeyDown(KeyCode.Keypad1))
+        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
         {
             isGun = !isGun;
         }
+        GetItem();
 
         if (isGun) m_WeaponMode = WeaponMode.GUN;
         else m_WeaponMode = WeaponMode.NONE;
@@ -75,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
 
         }
-        if (isStop==false)
+        if (isStop == false)
         {
             isMoving = (input.posX == 0 && input.posY == 0) ? false : true;
             moveSpeed = isMoving ? (input.isRun ? runSpeed : walkSpeed) : 0f;
@@ -87,6 +95,21 @@ public class PlayerMovement : MonoBehaviour
             animator.SetFloat(hashSpeed, moveSpeed);
         }
     }
+
+    private void GetItem()
+    {
+        Debug.Log($"{UIManager.Instance.UI[0].activeSelf} | {Input.GetKeyDown(KeyCode.E)} | {(UIManager.Instance.UI[0].activeSelf == true && Input.GetKeyDown(KeyCode.E))}");
+        if (UIManager.Instance.UI[0].activeSelf && Input.GetKeyDown(KeyCode.E))
+        {
+            //item로 부터 IItem 가저오는데 성공했다면(item이 null이 아니라면)
+            if (item != null)
+            {
+                item.Use(gameObject);
+            }
+            //소리 재생
+        }
+    }
+
     private void OnAnimatorMove()
     {
         if (isJump)

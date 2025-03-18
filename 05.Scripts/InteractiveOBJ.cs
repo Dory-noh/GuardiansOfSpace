@@ -15,7 +15,6 @@ public class InteractiveOBJ : MonoBehaviour, IItem
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log($"{transform.name}(¿Í)°ú ºÎµúÈû");
             UIManager.Instance.ToggleHelpUI(0, true);
         }
     }
