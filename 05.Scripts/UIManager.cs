@@ -23,11 +23,16 @@ public class UIManager : MonoBehaviour
     public Slider healthSlider; //체력을 표시할 UI 슬라이더
     [SerializeField] private GameObject Player;
     [SerializeField] private Image[] Quests;
-    
+    [SerializeField] private Image[] ItemIcons;
+
     private void Awake()
     {
         if(instance == null) instance = this;
         else if (instance != this) Destroy(gameObject);
+        foreach(var item in ItemIcons)
+        {
+            item.gameObject.SetActive(false);
+        }
     }
 
     public void ToggleHelpUI(int idx, bool isShow)
@@ -41,5 +46,11 @@ public class UIManager : MonoBehaviour
 
         healthSlider.value = Player.GetComponent<PlayerHealth>().health;
 
+    }
+
+    public void UpdateItemIcons(ItemData item)
+    {
+        int itemID = int.Parse(item.itemID);
+        ItemIcons[itemID].gameObject.SetActive(true);
     }
 }

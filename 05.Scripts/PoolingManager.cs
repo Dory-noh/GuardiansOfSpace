@@ -45,7 +45,7 @@ public class PoolingManager : MonoBehaviour
     IEnumerator CreateMonster(GameObject monsterPrefab, List<GameObject> monsterList)
     {
         yield return new WaitForSeconds(3f);
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 10; i++)
         {
             GameObject monster = Instantiate(monsterPrefab, transform);
             monster.name = $"{i}¹øÂ° {monsterPrefab.name}";
