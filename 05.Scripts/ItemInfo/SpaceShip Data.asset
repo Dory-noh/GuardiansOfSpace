@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fede96d8840ac824395577f72697c616, type: 3}
-  m_Name: ItemBatteryB
+  m_Name: SpaceShip Data
   m_EditorClassIdentifier: 
-  itemName: BatteryB
-  itemID: 4
+  itemName: SpaceShip
+  itemID: 5

@@ -538,6 +538,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 8688803186435683820, guid: fd02805ee801de64a828e8190cac7784,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 8756870369409294498, guid: fd02805ee801de64a828e8190cac7784,
         type: 3}
       propertyPath: m_Layer
@@ -1065,6 +1070,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8688803186435683820, guid: fd02805ee801de64a828e8190cac7784,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 8756870369409294498, guid: fd02805ee801de64a828e8190cac7784,
         type: 3}
@@ -1594,6 +1604,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 8688803186435683820, guid: fd02805ee801de64a828e8190cac7784,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 8756870369409294498, guid: fd02805ee801de64a828e8190cac7784,
         type: 3}
       propertyPath: m_Layer
@@ -2107,6 +2122,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 8688803186435683820, guid: fd02805ee801de64a828e8190cac7784,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 8756870369409294498, guid: fd02805ee801de64a828e8190cac7784,
         type: 3}
       propertyPath: m_Layer
@@ -2195,6 +2215,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Black Widow
+      objectReference: {fileID: 0}
+    - target: {fileID: 597104370471888068, guid: 6b5f88e6f5cc8654d85fbcf18dd02873,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -33,6 +34,14 @@ public class PlayerMovement : MonoBehaviour
     public Transform gunRightHandAttachment;
     public Transform gunBackAttachment;
     IItem item;
+    CinemachineVirtualCamera virtualCamera;
+    CinemachineTransposer VCTransposer;
+
+    // 부드러운 전환을 위한 변수
+    private float currentOffsetX = 0f;
+    private float targetOffsetX = 0f;
+    public float offsetSmoothTime = 0.1f; // 전환에 걸리는 시간 (초)
+    private float velocityOffsetX;
 
     private int hashPosX = Animator.StringToHash("PosX");
     private int hashPosY = Animator.StringToHash("PosY");
@@ -49,6 +58,19 @@ public class PlayerMovement : MonoBehaviour
         input = GetComponent<PlayerInput>();
         cc = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        virtualCamera = GameObject.Find("Virtual Camera").GetComponent<CinemachineVirtualCamera>();
+        if (virtualCamera != null)
+        {
+            VCTransposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+            if (VCTransposer != null)
+            {
+                currentOffsetX = VCTransposer.m_FollowOffset.x; // 초기 값 설정
+            }
+        }
+        else
+        {
+            Debug.LogError("Virtual Camera를 찾을 수 없습니다.");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -59,6 +81,11 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            GameManager.Instance.GameClear = true;
+        }
+
         if (GameManager.Instance.IsGameover) return;
         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
         {
@@ -69,20 +96,30 @@ public class PlayerMovement : MonoBehaviour
         if (isGun) m_WeaponMode = WeaponMode.GUN;
         else m_WeaponMode = WeaponMode.NONE;
 
+
         switch (m_WeaponMode)
         {
             case WeaponMode.NONE:
+                targetOffsetX = 0f;
                 Gun.transform.position = gunBackAttachment.transform.position;
                 Gun.transform.rotation = gunBackAttachment.rotation;
                 animator.SetBool(hashIsGun, isGun);
                 break;
             case WeaponMode.GUN:
+                targetOffsetX = 1f;
                 Gun.transform.position = gunRightHandAttachment.transform.position;
                 Gun.transform.rotation = gunRightHandAttachment.rotation;
                 animator.SetBool(hashIsGun, isGun);
                 break;
-
         }
+
+        // 부드러운 Offset X 값 전환
+        if (VCTransposer != null)
+        {
+            currentOffsetX = Mathf.SmoothDamp(currentOffsetX, targetOffsetX, ref velocityOffsetX, offsetSmoothTime);
+            VCTransposer.m_FollowOffset = new Vector3(currentOffsetX, VCTransposer.m_FollowOffset.y, VCTransposer.m_FollowOffset.z);
+        }
+
         if (isStop == false)
         {
             isMoving = (input.posX == 0 && input.posY == 0) ? false : true;
@@ -98,7 +135,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void GetItem()
     {
-        Debug.Log($"{UIManager.Instance.UI[0].activeSelf} | {Input.GetKeyDown(KeyCode.E)} | {(UIManager.Instance.UI[0].activeSelf == true && Input.GetKeyDown(KeyCode.E))}");
         if (UIManager.Instance.UI[0].activeSelf && Input.GetKeyDown(KeyCode.E))
         {
             //item로 부터 IItem 가저오는데 성공했다면(item이 null이 아니라면)
@@ -108,6 +144,7 @@ public class PlayerMovement : MonoBehaviour
             }
             //소리 재생
         }
+
     }
 
     private void OnAnimatorMove()
@@ -128,7 +165,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Move()
     {
-        moveDirection = (input.posX * transform.right +input.posY * transform.forward).normalized;
+        moveDirection = (input.posX * transform.right + input.posY * transform.forward).normalized;
         //rb.MovePosition(rb.position + moveDistance);
         //if (isJump) return;
         if (cc.isGrounded)
@@ -168,7 +205,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isStop = true;
             animator.SetTrigger(hashAttack);
-            if(isGun == true)
+            if (isGun == true)
             {
                 Gun.GetComponent<LaserGun>().Shoot();
             }
@@ -195,5 +232,4 @@ public class PlayerMovement : MonoBehaviour
         GameManager.Instance.IsGameover = true;
         UIManager.Instance.ToggleHelpUI(1, true);
     }
-
 }
