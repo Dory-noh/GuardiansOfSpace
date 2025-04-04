@@ -9,9 +9,12 @@ public class InteractiveOBJ : MonoBehaviour, IItem
 
     public void AddItem(ItemData item)
     {
-        UIManager.Instance.UpdateItemIcons(item); // UI 업데이트
         UIManager.Instance.UpdateQuest(item); //퀘스트 UI업데이트
-        gameObject.SetActive(false); //아이템 획득 후 아이템 비 활성화
+        if (int.Parse(item.itemID) < 5)
+        {
+            UIManager.Instance.UpdateItemIcons(item); // UI 업데이트
+            gameObject.SetActive(false); //아이템 획득 후 아이템 비 활성화
+        }
     }
 
 

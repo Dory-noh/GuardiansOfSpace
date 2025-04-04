@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
         set
         {
             gameClear = value;
-            //if (gameClear) SetQuestComplete?.Invoke();
+            if (gameClear) SetQuestComplete?.Invoke();
         }
     }
 
@@ -50,5 +50,5 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    //public UnityEvent SetQuestComplete;
+    public UnityEvent SetQuestComplete;
 }

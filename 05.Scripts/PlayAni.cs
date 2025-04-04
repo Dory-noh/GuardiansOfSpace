@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
-
+using UnityEngine.SceneManagement;
 public class PlayAni: MonoBehaviour
 {
     private Animator[] target = new Animator[3];
@@ -19,5 +19,10 @@ public class PlayAni: MonoBehaviour
     {
         idx = index;
         target[index].SetTrigger("IsPlay");
+    }
+
+    public void ShowEndingScene()
+    {
+        SceneManager.LoadScene("EndingScene");
     }
 }

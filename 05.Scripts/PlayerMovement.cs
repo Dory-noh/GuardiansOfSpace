@@ -81,10 +81,10 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            GameManager.Instance.GameClear = true;
-        }
+        //if (Input.GetKeyDown(KeyCode.S))
+        //{
+        //    GameManager.Instance.GameClear = true;
+        //}
 
         if (GameManager.Instance.IsGameover) return;
         if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
