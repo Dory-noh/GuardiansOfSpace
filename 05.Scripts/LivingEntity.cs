@@ -2,13 +2,25 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LivingEntity : MonoBehaviour, IDamageable
 {
     public float startingHealth = 100f; //시작 체력
     public float health {  get; set; } //현재 체력
     public bool dead { get; private set; } //사망 상태
+
     public event Action onDeath; //사망시 발동할 이벤트
+
+    public int power = 10;
+
+    [SerializeField] protected Animator animator;
+    [SerializeField] protected Image hpBar;
+    
+    protected readonly int hashDamage = Animator.StringToHash("Damage");
+    protected readonly int hashDie = Animator.StringToHash("Die");
+
+   
 
     //생명체가 활성화될 때 상태 리셋
     protected virtual void OnEnable()
@@ -17,15 +29,17 @@ public class LivingEntity : MonoBehaviour, IDamageable
         dead = false;
         //체력을 시작 체력으로 초기화
         health = startingHealth;
+        animator = GetComponent<Animator>();
     }
 
     //데미지를 잃는 메서드
-    public virtual void OnDamage(float damage, Vector3 hitPoint, Vector3 hitNormal)
+    public virtual void OnDamage(float damage)
     {
         health -= damage;
         health = Mathf.Clamp(health, 0f, startingHealth);
         if(health <= 0 && !dead)
         {
+            Debug.Log($"{gameObject.name} 죽음!");
             Die();
         }
     }
@@ -38,8 +52,16 @@ public class LivingEntity : MonoBehaviour, IDamageable
         {
             onDeath();
         }
-
         //사망 상태를 참으로 변경한다.
         dead = true;
-    } 
+    }
+    protected void DisableCharacter()
+    {
+        gameObject.SetActive(false);
+    }
+
+    protected void UpdateHpBar()
+    {
+        hpBar.fillAmount = health / startingHealth;
+    }
 }

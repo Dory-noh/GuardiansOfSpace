@@ -23,7 +23,7 @@ public class InteractiveOBJ : MonoBehaviour, IItem
         AddItem(itemData);
 }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {
@@ -33,7 +33,8 @@ public class InteractiveOBJ : MonoBehaviour, IItem
 
     private void OnTriggerExit(Collider other)
     {
-        UIManager.Instance.ToggleHelpUI(0, false);
+        if (other.CompareTag("Player"))
+            UIManager.Instance.ToggleHelpUI(0, false);
     }
 
     private void OnDisable()

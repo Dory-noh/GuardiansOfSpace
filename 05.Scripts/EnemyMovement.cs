@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 
 public enum EnemyState
@@ -14,30 +15,43 @@ public enum EnemyState
     DIE
 }
 
-public class EnemyMovement : MonoBehaviour
+public class EnemyMovement : LivingEntity, IEnemy
 {
     public EnemyState state = EnemyState.IDLE;
+    public GameObject key;
     public NavMeshAgent agent;
     public Transform target;
     public float traceDistance = 30f;
     public float attackDistance = 3f;
     public Vector3 originPos;
 
+    public float attackTime = 1.5f;
+    private bool canAttack = true;
+
     private int hashIsMove = Animator.StringToHash("IsMove");
     private int hashPunch = Animator.StringToHash("Punch");
 
-    public Animator[] animator;
+    public Animator[] animators;
 
     void Start()
     {
         originPos = transform.position;
         agent = GetComponent<NavMeshAgent>();
         target = GameObject.FindWithTag("Player").transform;
-        animator = GetComponentsInChildren<Animator>();
+        animators = GetComponentsInChildren<Animator>();
+        power = 2;
+    }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        state = EnemyState.IDLE;
+        UpdateHpBar();
     }
 
     void Update()
     {
+        if (GameManager.Instance.IsGameover) return;
         if (Vector3.Distance(transform.position, target.position) <= attackDistance)
         {
             state = EnemyState.ATTACK;
@@ -55,7 +69,7 @@ public class EnemyMovement : MonoBehaviour
         {
             case EnemyState.IDLE:
                 agent.destination = originPos;
-                foreach (Animator anim in animator)
+                foreach (Animator anim in animators)
                 {
                     if (agent.remainingDistance < 3f)
                     {
@@ -73,20 +87,84 @@ public class EnemyMovement : MonoBehaviour
             case EnemyState.TRACE:
                 agent.isStopped = false;
                 agent.destination = target.position;
-                foreach (Animator anim in animator) anim.SetBool(hashIsMove, true);
+                foreach (Animator anim in animators) anim.SetBool(hashIsMove, true);
                 break;
-            case EnemyState.ATTACK:
-                agent.isStopped = false;
-                agent.destination = target.position;
+            case EnemyState.DAMAGE:
+                agent.isStopped = true;
                 transform.LookAt(target.position);
-                foreach (Animator anim in animator)
+                foreach (Animator anim in animators)
                 {
                     anim.SetBool(hashIsMove, false);
-                    anim.SetTrigger(hashPunch);
+                    anim.SetTrigger(hashDamage);
                 }
+                break;
+            case EnemyState.ATTACK:
+                Attack();
                 break;
             default:
                 break;
+        }
+    }
+
+    private void Attack()
+    {
+        agent.isStopped = true;
+        agent.destination = target.position;
+        transform.LookAt(target.position);
+        if (canAttack)
+        {
+            foreach (Animator anim in animators)
+            {
+                anim.SetBool(hashIsMove, false);
+                anim.SetTrigger(hashPunch);
+            }
+            canAttack = false;
+            StartCoroutine(EnableAttack());
+        }
+    }
+
+    IEnumerator EnableAttack()
+    {
+        yield return new WaitForSeconds(attackTime);
+        canAttack = true;
+    }
+
+    public override void OnDamage(float damage)
+    {
+        base.OnDamage(damage);
+        UpdateHpBar();
+        state = EnemyState.DAMAGE;
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        state = EnemyState.DIE;
+        agent.isStopped = true;
+        foreach (Animator anim in animators)
+        {
+            anim.SetBool(hashIsMove, false);
+            anim.SetTrigger(hashDie);
+        }
+        Invoke("DisableCharacter", 3f);
+    }
+
+    private void OnDisable()
+    {
+        if (key != null)
+        {
+            Transform mainSceneTr = GameObject.Find("MainScene").transform;
+
+            if (mainSceneTr != null)
+            {
+                Debug.Log("열쇠 부모 변경");
+                // Key 오브젝트의 부모를 MainScene으로 변경
+                key.transform.SetParent(mainSceneTr);
+
+                // Key 오브젝트의 로컬 위치 및 회전을 초기화
+                key.transform.localPosition = Vector3.zero;
+                key.transform.localRotation = Quaternion.identity;
+            }
         }
     }
 }

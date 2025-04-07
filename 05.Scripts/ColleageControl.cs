@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 
 public enum ColleageState
@@ -13,10 +14,9 @@ public enum ColleageState
     DAMAGE,
     DIE
 }
-public class ColleageControl : MonoBehaviour
+public class ColleageControl : LivingEntity, IPlayer
 {
     public NavMeshAgent agent;
-    public Animator animator;
 
     public GameObject player;
     public GameObject target;
@@ -26,7 +26,8 @@ public class ColleageControl : MonoBehaviour
     public float stopDistance = 4f;
     public float enemyTraceDistance = 6f;
     public float playerTraceDistance = 10f;
-
+    public float attackTime = 1.5f;
+    private bool canAttack = true;
 
     private readonly int hashIsMove = Animator.StringToHash("IsMove");
     private readonly int hashAttack = Animator.StringToHash("Attack");
@@ -35,14 +36,21 @@ public class ColleageControl : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         //target = GameObject.FindWithTag("Enemy"); // 더 이상 특정 Enemy를 찾지 않음
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
         agent.destination = player.transform.position;
         agent.stoppingDistance = stopDistance;
         agent.speed = Movespeed;
     }
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        state = ColleageState.IDLE;
+        UpdateHpBar();
+    }
+
     void Update()
     {
+        if (GameManager.Instance.IsGameover) return;
         FindClosestEnemy(); // 매 프레임마다 가장 가까운 적을 찾도록 업데이트
 
         if (player == null) return; // 플레이어가 없으면 더 이상 진행하지 않음
@@ -108,16 +116,34 @@ public class ColleageControl : MonoBehaviour
                 if (target != null)
                 {
                     agent.destination = target.transform.position;
-                    animator.SetBool(hashIsMove, false);
-                    animator.SetTrigger(hashAttack);
                     agent.isStopped = true;
+                    animator.SetBool(hashIsMove, false);
+                    if (canAttack == true)
+                    {
+                        animator.SetTrigger(hashAttack);
+                        canAttack = false;
+                        StartCoroutine(EnableAttack());
+                    }
+                    
+                    
                 }
                 else
                 {
                     state = ColleageState.PLAYERTRACE; // 적이 없어지면 플레이어 추적
                 }
                 break;
+            case ColleageState.DAMAGE:
+                animator.SetBool(hashIsMove, false);
+                animator.SetTrigger(hashDamage);
+                agent.isStopped = true;
+                break;
         }
+    }
+
+    IEnumerator EnableAttack()
+    {
+        yield return new WaitForSeconds(attackTime);
+        canAttack = true;
     }
 
     // 가장 가까운 적을 찾는 함수
@@ -139,5 +165,23 @@ public class ColleageControl : MonoBehaviour
         }
 
         target = closestEnemy;
+    }
+
+    public override void OnDamage(float damage)
+    {
+        base.OnDamage(damage);
+        UpdateHpBar();
+        state = ColleageState.DAMAGE;
+    }
+
+    public override void Die()
+    {
+        base.Die();
+
+        agent.isStopped = true;
+        animator.SetBool(hashIsMove, false);
+        animator.SetTrigger(hashDie);
+        state = ColleageState.DIE;
+        Invoke("DisableCharacter", 3f);
     }
 }

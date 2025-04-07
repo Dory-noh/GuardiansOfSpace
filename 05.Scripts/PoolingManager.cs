@@ -76,6 +76,10 @@ public class PoolingManager : MonoBehaviour
 
     void Update()
     {
-
+        if (GameManager.Instance.IsGameover)
+        {
+            StopAllCoroutines();
+            return;
+        }
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IPlayer
 {
     public enum WeaponMode
     {
@@ -205,6 +205,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isStop = true;
             animator.SetTrigger(hashAttack);
+            animator.SetFloat(hashSpeed, 0f);
             if (isGun == true)
             {
                 Gun.GetComponent<LaserGun>().Shoot();
@@ -225,11 +226,5 @@ public class PlayerMovement : MonoBehaviour
     {
         isStop = false;
         if (isJump == true) isJump = false;
-    }
-
-    public void Die()
-    {
-        GameManager.Instance.IsGameover = true;
-        UIManager.Instance.ToggleHelpUI(1, true);
     }
 }
