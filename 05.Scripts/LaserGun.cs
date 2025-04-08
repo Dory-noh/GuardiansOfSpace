@@ -7,7 +7,7 @@ public class LaserGun : MonoBehaviour
     public LineRenderer lineRenderer;
     public Transform FirePos;
     //public GameObject bulletPrefab;
-
+    private float power = 15f;
     void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -19,11 +19,21 @@ public class LaserGun : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(FirePos.position, transform.forward, out hit, 100f))
         {
+            Debug.Log($"{hit.transform.gameObject.name} 감지 성공");
             if (hit.transform.CompareTag("Enemy"))
             {
-                //GameObject bullet = Instantiate(bulletPrefab, FirePos);
-                //bullet.GetComponent<Rigidbody>().AddForce(hit.transform.forward);
-                //Destroy(bullet, 3f);
+                
+                LivingEntity enemy = hit.transform.gameObject.transform.GetComponent<LivingEntity>();
+
+                if(enemy != null)
+                {
+                    Debug.Log($"{hit.transform. name} 공격 성공");
+                    enemy.OnDamage(power);
+                }
+                else
+                {
+                    Debug.Log($"총알 공격 실패");
+                }
                 
             }
             StartCoroutine(ShowLaser(hit.point));

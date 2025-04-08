@@ -63,7 +63,7 @@ public class PlayerInput : MonoBehaviour
     //    rotate = dir.x;
     //}
 
-    void OnFire(InputValue value)
+    void OnFire2(InputValue value)
     {
         //Debug.Log("Fire1");
         if(fire == false)

@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
         set
         {
             isGameOver = value;
+            if (isGameOver)
+                UIManager.Instance.ShowGameOverUI();
         }
     }
 
@@ -33,7 +35,11 @@ public class GameManager : MonoBehaviour
         set
         {
             gameClear = value;
-            if (gameClear) SetQuestComplete?.Invoke();
+            if (gameClear)
+            {
+                Debug.Log("게임 클리어!");
+                SetQuestComplete?.Invoke();
+            }
         }
     }
 

@@ -146,25 +146,28 @@ public class EnemyMovement : LivingEntity, IEnemy
             anim.SetBool(hashIsMove, false);
             anim.SetTrigger(hashDie);
         }
+        Invoke("ChangeKeysParent", 1f);
         Invoke("DisableCharacter", 3f);
+    }
+
+    private void ChangeKeysParent()
+    {
+        if (key != null)
+        {
+            GameObject keyParent = new GameObject("keyParent");
+            keyParent.transform.position = gameObject.transform.position;
+            Debug.Log("열쇠 부모 변경");
+            // Key 오브젝트의 부모를 MainScene으로 변경
+            key.transform.SetParent(keyParent.transform);
+
+            // Key 오브젝트의 로컬 위치 및 회전을 초기화
+            key.transform.localPosition = new Vector3(0, 1.5f, 0);
+            key.transform.localRotation = Quaternion.identity;
+        }
     }
 
     private void OnDisable()
     {
-        if (key != null)
-        {
-            Transform mainSceneTr = GameObject.Find("MainScene").transform;
-
-            if (mainSceneTr != null)
-            {
-                Debug.Log("열쇠 부모 변경");
-                // Key 오브젝트의 부모를 MainScene으로 변경
-                key.transform.SetParent(mainSceneTr);
-
-                // Key 오브젝트의 로컬 위치 및 회전을 초기화
-                key.transform.localPosition = Vector3.zero;
-                key.transform.localRotation = Quaternion.identity;
-            }
-        }
+       
     }
 }

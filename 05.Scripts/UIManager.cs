@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -35,19 +36,30 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        if(instance == null) instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
+
         else if (instance != this) Destroy(gameObject);
-        foreach(var item in ItemIcons)
+        foreach (var item in ItemIcons)
         {
             item.gameObject.SetActive(false);
         }
         batteryCount = 0;
+        
+        DisableInfoTxt();
         explainImg.SetActive(true);
         explainTexts[0].SetActive(true);
-        explainTexts[1].SetActive(false);
-        explainTexts[2].SetActive(false);
-        explainTexts[3].SetActive(false);
-        explainTexts[4].SetActive(false);
+    }
+
+    private void DisableInfoTxt()
+    {
+        foreach (var explainTxt in explainTexts)
+        {
+            explainTxt.SetActive(false);
+        }
+        explainImg.SetActive(false);
     }
 
     public void ToggleHelpUI(int idx, bool isShow)
@@ -93,26 +105,17 @@ public class UIManager : MonoBehaviour
             {
                 if (haveKey == false)
                 {
-                    if (explainImg.activeSelf == false)
-                    {
-                        explainImg.SetActive(true);
-                        explainTexts[0].SetActive(false);
-                        explainTexts[1].SetActive(false);
-                        explainTexts[2].SetActive(true);
-                        explainTexts[3].SetActive(false);
-                        explainTexts[4].SetActive(false);
-                    }
+                    DisableInfoTxt();
+                    explainImg.SetActive(true);
+                    explainTexts[2].SetActive(true);
                 }
                 else
                 {
                     if (batteryCount < 4)
                     {
+                        DisableInfoTxt();
                         explainImg.SetActive(true);
-                        explainTexts[0].SetActive(false);
-                        explainTexts[1].SetActive(false);
-                        explainTexts[2].SetActive(false);
                         explainTexts[3].SetActive(true);
-                        explainTexts[4].SetActive(false);
                     }
                     else //구조요청자 찾았고, 연료, 키 모두 찾았으면 게임 클리어 실행
                     {
@@ -130,26 +133,17 @@ public class UIManager : MonoBehaviour
             }
             else
             {
+                DisableInfoTxt();
                 explainImg.SetActive(true);
-                explainTexts[0].SetActive(false);
-                explainTexts[1].SetActive(false);
-                explainTexts[2].SetActive(false);
-                explainTexts[3].SetActive(false);
                 explainTexts[4].SetActive(true);
             }
         }
         else if(itemID == 6)
         {
             Quests[0].gameObject.SetActive(false);
-            if (explainImg.activeSelf == false)
-            {
-                explainImg.SetActive(true);
-                explainTexts[0].SetActive(false);
-                explainTexts[1].SetActive(true);
-                explainTexts[2].SetActive(false);
-                explainTexts[3].SetActive(false);
-                explainTexts[4].SetActive(false);
-            }
+            DisableInfoTxt();
+            explainImg.SetActive(true);
+            explainTexts[1].SetActive(true);
             findRequestor = true;
             questClearCount++;
         }
@@ -157,6 +151,6 @@ public class UIManager : MonoBehaviour
 
     public void ShowGameOverUI()
     {
-        ToggleHelpUI(5, false);
+        ToggleHelpUI(5, true);
     }
 }

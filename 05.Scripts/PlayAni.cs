@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using Cinemachine;
 public class PlayAni: MonoBehaviour
 {
     private Animator[] target = new Animator[3];
@@ -19,6 +20,12 @@ public class PlayAni: MonoBehaviour
     {
         idx = index;
         target[index].SetTrigger("IsPlay");
+        if (index == 2)
+        {
+            CinemachineVirtualCamera virtualCamera = GameObject.Find("Virtual Camera").GetComponent<CinemachineVirtualCamera>();
+            virtualCamera.Follow = target[2].transform;
+            virtualCamera.LookAt = target[2].transform;
+        }
     }
 
     public void ShowEndingScene()
