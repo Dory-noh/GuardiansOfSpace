@@ -35,8 +35,10 @@ public class PlayerHealth : LivingEntity
     //데미지 처리
     public override void OnDamage(float damage)
     {
-        if (!dead) //데미지 입었을 때 작동 코드
+        if (!dead && isDamage == false) //데미지 입었을 때 작동 코드
         {
+            isDamage = true;
+            StartCoroutine(resetDamageCheck());
             animator.SetTrigger(hashDamage);
             animator.SetFloat(hashSpeed, 0f);
         }

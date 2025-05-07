@@ -36,6 +36,7 @@ public class PlayerMovement : MonoBehaviour, IPlayer
     IItem item;
     CinemachineVirtualCamera virtualCamera;
     CinemachineTransposer VCTransposer;
+    
 
     // 부드러운 전환을 위한 변수
     private float currentOffsetX = 0f;
@@ -104,12 +105,14 @@ public class PlayerMovement : MonoBehaviour, IPlayer
                 Gun.transform.position = gunBackAttachment.transform.position;
                 Gun.transform.rotation = gunBackAttachment.rotation;
                 animator.SetBool(hashIsGun, isGun);
+                UIManager.Instance.ToggleCrossHair(false);
                 break;
             case WeaponMode.GUN:
                 targetOffsetX = 1f;
                 Gun.transform.position = gunRightHandAttachment.transform.position;
                 Gun.transform.rotation = gunRightHandAttachment.rotation;
                 animator.SetBool(hashIsGun, isGun);
+                UIManager.Instance.ToggleCrossHair(true);
                 break;
         }
 
@@ -206,21 +209,17 @@ public class PlayerMovement : MonoBehaviour, IPlayer
             isStop = true;
             animator.SetTrigger(hashAttack);
             animator.SetFloat(hashSpeed, 0f);
-            if (isGun == true)
-            {
-                Gun.GetComponent<LaserGun>().Shoot();
-            }
+            //if (isGun == true) //레이저 나오는 타이밍을 애니메이션과 맞추기 위해 총쏘는 애니메이션에서 레이저 호출
+            //{
+             //   Gun.GetComponent<LaserGun>().Shoot();
+            //}
         }
     }
-    //public void Attack2()
-    //{
-    //    Debug.Log("발사");
-    //    if (isStop == false)
-    //    {
-    //        isStop = true;
-    //        animator.SetTrigger(hashAttack2);
-    //    }
-    //}
+
+    public void FireLaser()
+    {
+        Gun.GetComponent<LaserGun>().Shoot();
+    }
 
     public void AllowMove() //공격 끝나면 isAttack false로 만드는 메서드
     {

@@ -63,7 +63,16 @@
                     "name": "Trigger",
                     "type": "Button",
                     "id": "75ff26cf-697c-4a54-a63d-85ad1d1efac7",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Run",
+                    "type": "Button",
+                    "id": "fab19cc9-4997-4805-9925-846db1c5ba78",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -331,6 +340,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Trigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "69d3b030-5e10-4d37-96e0-e894ba85e1d4",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse;Touch",
+                    "action": "Run",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

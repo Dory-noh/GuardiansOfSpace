@@ -21,6 +21,7 @@ public class EnemyMovement : LivingEntity, IEnemy
     public GameObject key;
     public NavMeshAgent agent;
     public Transform target;
+    public Transform[] targetArr = new Transform[2];
     public float traceDistance = 30f;
     public float attackDistance = 3f;
     public Vector3 originPos;
@@ -37,9 +38,11 @@ public class EnemyMovement : LivingEntity, IEnemy
     {
         originPos = transform.position;
         agent = GetComponent<NavMeshAgent>();
-        target = GameObject.FindWithTag("Player").transform;
+        targetArr[0] = GameObject.FindWithTag("Player").transform;
+        targetArr[1] = GameObject.FindWithTag("Colleage").transform;
         animators = GetComponentsInChildren<Animator>();
         power = 2;
+        attackTime = 3f;
     }
 
     protected override void OnEnable()
@@ -52,6 +55,8 @@ public class EnemyMovement : LivingEntity, IEnemy
     void Update()
     {
         if (GameManager.Instance.IsGameover) return;
+        //플레이어와 플레어의 동료 중 해당 Enemy와의 거리가 가까운 캐릭터를 타겟으로 삼음.
+        target = Vector3.Distance(transform.position, targetArr[0].position) <= Vector3.Distance(transform.position, targetArr[1].position) ? targetArr[0] : targetArr[1];
         if (Vector3.Distance(transform.position, target.position) <= attackDistance)
         {
             state = EnemyState.ATTACK;
@@ -155,7 +160,7 @@ public class EnemyMovement : LivingEntity, IEnemy
         if (key != null)
         {
             GameObject keyParent = new GameObject("keyParent");
-            keyParent.transform.position = gameObject.transform.position;
+            keyParent.transform.position = new Vector3(gameObject.transform.position.x, -6f, gameObject.transform.position.z);
             Debug.Log("열쇠 부모 변경");
             // Key 오브젝트의 부모를 MainScene으로 변경
             key.transform.SetParent(keyParent.transform);

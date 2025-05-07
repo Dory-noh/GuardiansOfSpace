@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FireLaser : MonoBehaviour
 {
+    //CreepÀÇ Laser °ø°Ý
     [SerializeField] private Transform FirePos;
     [SerializeField] private Transform target;
     [SerializeField] private LineRenderer lineRenderer;

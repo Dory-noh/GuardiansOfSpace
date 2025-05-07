@@ -21,9 +21,15 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift)) isRun = true;
-        if (Input.GetKeyUp(KeyCode.LeftShift)) isRun = false;
+        //if (Input.GetKeyDown(KeyCode.LeftShift)) isRun = true;
+        //if (Input.GetKeyUp(KeyCode.LeftShift)) isRun = false;
     }
+
+    void OnRun(InputValue value)
+    {
+        isRun = value.isPressed;
+    }
+
     void OnMove(InputValue value)
     {
         //Debug.Log("Move");

@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image[] ItemIcons;
     [SerializeField] private GameObject[] explainTexts;
     [SerializeField] private GameObject explainImg;
+    [SerializeField] private GameObject crossHairImg;
 
     bool findRequestor = false;
     bool haveKey = false;
@@ -53,6 +54,10 @@ public class UIManager : MonoBehaviour
         explainTexts[0].SetActive(true);
     }
 
+    public void ToggleCrossHair(bool isShow)
+    {
+        crossHairImg.SetActive(isShow);
+    }
     private void DisableInfoTxt()
     {
         foreach (var explainTxt in explainTexts)

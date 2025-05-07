@@ -8,34 +8,35 @@ public class LaserGun : MonoBehaviour
     public Transform FirePos;
     //public GameObject bulletPrefab;
     private float power = 15f;
+
+    readonly int enemyLayerMask = LayerMask.GetMask("Enemy");
     void Start()
     {
-        lineRenderer = GetComponent<LineRenderer>();
-        FirePos = transform.GetChild(3).transform;
+        power = 20f;
+        if(lineRenderer == null)
+            lineRenderer = GetComponent<LineRenderer>();
+        if(FirePos == null)
+            FirePos = transform.GetChild(3).transform;
     }
 
     public void Shoot()
     {
         RaycastHit hit;
-        if (Physics.Raycast(FirePos.position, transform.forward, out hit, 100f))
+        if (Physics.Raycast(FirePos.position, transform.forward, out hit, 30f))
         {
-            Debug.Log($"{hit.transform.gameObject.name} 감지 성공");
-            if (hit.transform.CompareTag("Enemy"))
-            {
-                
-                LivingEntity enemy = hit.transform.gameObject.transform.GetComponent<LivingEntity>();
+            Debug.Log($"{hit.transform.parent.gameObject.name} 감지 성공");
+            LivingEntity enemy = hit.transform.GetComponentInParent<LivingEntity>();
 
-                if(enemy != null)
-                {
-                    Debug.Log($"{hit.transform. name} 공격 성공");
-                    enemy.OnDamage(power);
-                }
-                else
-                {
-                    Debug.Log($"총알 공격 실패");
-                }
-                
+            if(enemy != null)
+            {
+                Debug.Log($"{hit.transform.parent.gameObject.name} 공격 성공");
+                enemy.OnDamage(power);
             }
+            else
+            {
+                Debug.Log($"총알 공격 실패");
+            }
+                
             StartCoroutine(ShowLaser(hit.point));
         }
     }
@@ -46,7 +47,7 @@ public class LaserGun : MonoBehaviour
         lineRenderer.SetPosition(1, hitPoint);
         lineRenderer.enabled = true;
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.3f);
 
         lineRenderer.enabled = false;
     }

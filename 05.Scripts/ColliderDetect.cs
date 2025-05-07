@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ColliderDetect : MonoBehaviour
 {
+    bool isAttack = false;
     private void OnTriggerEnter(Collider other)
     {
         if (GameManager.Instance.IsGameover) return;
@@ -17,8 +18,13 @@ public class ColliderDetect : MonoBehaviour
         
         if (otherEntity is not null && parentEntity is not null)
         {
-            Debug.Log($"{gameObject.name}이 {other.name} 을 공격하였음.");
-            otherEntity.OnDamage(parentEntity.power);
+            if(isAttack == false)
+            {
+                isAttack = true;
+                Debug.Log($"{gameObject.name}이 {other.name} 을 공격하였음.");
+                otherEntity.OnDamage(parentEntity.power);
+                StartCoroutine(ResetAttackCheck());
+            }
         }
         else
         {
@@ -26,5 +32,10 @@ public class ColliderDetect : MonoBehaviour
             if (otherEntity is null) Debug.Log($"{other.name}의 LivingEntity를 찾을 수 없습니다.");
             else Debug.Log($"{gameObject.transform.parent.name}의 LivingEntity를 찾을 수 없습니다.");
         }
+    }
+    IEnumerator ResetAttackCheck()
+    {
+        yield return new WaitForSeconds(0.1f);
+        isAttack = false;
     }
 }

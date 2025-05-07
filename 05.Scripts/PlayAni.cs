@@ -25,6 +25,8 @@ public class PlayAni: MonoBehaviour
             CinemachineVirtualCamera virtualCamera = GameObject.Find("Virtual Camera").GetComponent<CinemachineVirtualCamera>();
             virtualCamera.Follow = target[2].transform;
             virtualCamera.LookAt = target[2].transform;
+            var OrbitalTr = virtualCamera.AddCinemachineComponent<CinemachineOrbitalTransposer>();
+            OrbitalTr.m_BindingMode = CinemachineTransposer.BindingMode.LockToTarget;
         }
     }
 

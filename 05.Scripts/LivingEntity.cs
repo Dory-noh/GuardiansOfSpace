@@ -16,10 +16,11 @@ public class LivingEntity : MonoBehaviour, IDamageable
     public event Action onDeath; //사망시 발동할 이벤트
 
     public int power = 10;
-
+    protected bool isDamage;
+    WaitForSeconds DamageWS = new WaitForSeconds(0.6f);
     //일정 시간 동안 데미지를 입지 않았을 때 hp 회복을 위한 변수
     protected float lastDamageTime = 0f;
-    protected float regenerationInterval = 5f; // 1분 (60초)
+    protected float regenerationInterval = 5f; // 5초
 
     [SerializeField] protected Animator animator;
     [SerializeField] protected Image hpBar;
@@ -38,6 +39,7 @@ public class LivingEntity : MonoBehaviour, IDamageable
         health = startingHealth;
         animator = GetComponent<Animator>();
         lastDamageTime = Time.time; // 활성화 시 초기화
+        DamageWS = new WaitForSeconds(0.6f);
     }
 
     public virtual void FixedUpdate()
@@ -55,20 +57,36 @@ public class LivingEntity : MonoBehaviour, IDamageable
         lastDamageTime = Time.time; // 데미지 타임 초기화
         health+=5;
         health = Mathf.Clamp(health, 0, startingHealth);
-        hpBar.fillAmount = (float)health / startingHealth;
+        try
+        {
+            hpBar.fillAmount = (float)health / startingHealth;
+        }
+        catch
+        {
+            Debug.Log($"{gameObject.name}의 hpBar 수정에 문제가 생겼습니다.{hpBar is null} | {health} | {startingHealth}");
+        }
+        
     }
 
     //데미지를 잃는 메서드
     public virtual void OnDamage(float damage)
     {
-        health -= damage;
-        health = Mathf.Clamp(health, 0f, startingHealth);
-        lastDamageTime = Time.time; // 데미지 받은 시간 업데이트
-        if (health <= 0 && !dead)
-        {
-            Debug.Log($"{gameObject.name} 죽음!");
-            Die();
-        }
+            health -= damage;
+            health = Mathf.Clamp(health, 0f, startingHealth);
+            lastDamageTime = Time.time; // 데미지 받은 시간 업데이트
+            
+            if (health <= 0 && !dead)
+            {
+                Debug.Log($"{gameObject.name} 죽음!");
+                Die();
+            }
+        
+    }
+
+    protected IEnumerator resetDamageCheck()
+    {
+        yield return DamageWS;
+        isDamage = false;
     }
 
     //사망 처리

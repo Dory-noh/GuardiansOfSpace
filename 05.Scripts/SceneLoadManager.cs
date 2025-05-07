@@ -27,8 +27,9 @@ public class SceneLoadManager : MonoBehaviour
         }
     }
 
-    private void LoadMainScene()
+    public void LoadMainScene()
     {
+        Debug.Log("메인씬 로드 버튼 누름");
         spaceShipAni.SetBool(hashIsLobby, false);
         UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
         
@@ -36,6 +37,7 @@ public class SceneLoadManager : MonoBehaviour
 
     public void ExitGame()
     {
+        Debug.Log("종료 버튼 누름");
         Application.Quit();
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;

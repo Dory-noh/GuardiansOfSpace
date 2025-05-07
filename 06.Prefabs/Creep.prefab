@@ -307,7 +307,7 @@ PrefabInstance:
     - target: {fileID: 785883847837152896, guid: f3978c44f7fb36246b698fdea7f77528,
         type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 891101728828601456, guid: f3978c44f7fb36246b698fdea7f77528,
         type: 3}
@@ -537,7 +537,7 @@ PrefabInstance:
     - target: {fileID: 1905491609449645487, guid: f3978c44f7fb36246b698fdea7f77528,
         type: 3}
       propertyPath: m_StoppingDistance
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2106585391104130997, guid: f3978c44f7fb36246b698fdea7f77528,
         type: 3}
@@ -1182,7 +1182,7 @@ PrefabInstance:
     - target: {fileID: 4072597733061337919, guid: f3978c44f7fb36246b698fdea7f77528,
         type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4375097843139643381, guid: f3978c44f7fb36246b698fdea7f77528,
         type: 3}
@@ -1277,7 +1277,7 @@ PrefabInstance:
     - target: {fileID: 4766469342707294383, guid: f3978c44f7fb36246b698fdea7f77528,
         type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4858625582107812420, guid: f3978c44f7fb36246b698fdea7f77528,
         type: 3}

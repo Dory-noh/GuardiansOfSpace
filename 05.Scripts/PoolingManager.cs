@@ -67,7 +67,7 @@ public class PoolingManager : MonoBehaviour
                     monster.transform.position = SpawnPoints[Random.Range(0, SpawnPoints.Length)].position;
                     monster.transform.rotation = Quaternion.identity;
                     monster.gameObject.SetActive(true);
-                    yield return new WaitForSeconds(5f);
+                    yield return new WaitForSeconds(10f);
                     continue;
                 }
             }
