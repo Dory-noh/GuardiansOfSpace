@@ -45,7 +45,7 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "21daa1d8-39ec-4c8d-8b1e-0b870c41c7dc",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -72,6 +72,15 @@
                     "name": "Run",
                     "type": "Button",
                     "id": "fab19cc9-4997-4805-9925-846db1c5ba78",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "GameStop",
+                    "type": "Button",
+                    "id": "c5c6be0d-4611-480c-ad0f-178af69deecb",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -351,6 +360,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse;Touch",
                     "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1c36f638-8f5a-419d-82c4-ca77a5b53b22",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse;Touch",
+                    "action": "GameStop",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

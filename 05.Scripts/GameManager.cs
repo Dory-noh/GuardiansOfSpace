@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
             if (gameClear)
             {
                 Debug.Log("게임 클리어!");
+                PoolingManager.Instance.StopAllCoroutines();
+
                 SetQuestComplete?.Invoke();
             }
         }
@@ -55,6 +57,5 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
     public UnityEvent SetQuestComplete;
 }

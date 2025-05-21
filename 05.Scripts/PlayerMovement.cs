@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour, IPlayer
     IItem item;
     CinemachineVirtualCamera virtualCamera;
     CinemachineTransposer VCTransposer;
-    
+    [SerializeField] ParticleSystem particleAttack;
 
     // 부드러운 전환을 위한 변수
     private float currentOffsetX = 0f;
@@ -134,6 +134,12 @@ public class PlayerMovement : MonoBehaviour, IPlayer
             animator.SetFloat(hashPosY, input.posY);
             animator.SetFloat(hashSpeed, moveSpeed);
         }
+    }
+
+    public void PlayParticle()
+    {
+        particleAttack.Play();
+        Debug.Log("Drake의 공격시도");
     }
 
     private void GetItem()

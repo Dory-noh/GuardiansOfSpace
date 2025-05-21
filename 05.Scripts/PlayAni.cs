@@ -20,6 +20,7 @@ public class PlayAni: MonoBehaviour
     {
         idx = index;
         target[index].SetTrigger("IsPlay");
+        Debug.Log($"{index + 1}번째 애니메이션 재생");
         if (index == 2)
         {
             CinemachineVirtualCamera virtualCamera = GameObject.Find("Virtual Camera").GetComponent<CinemachineVirtualCamera>();

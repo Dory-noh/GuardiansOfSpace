@@ -60,7 +60,8 @@ public class PlayerHealth : LivingEntity
         playerMovement.enabled = false;
         GameManager.Instance.IsGameover = true;
         UIManager.Instance.ToggleHelpUI(1, true);
-        Invoke("DisableCharacter", 3f);
+        UIManager.Instance.ToggleCrossHair(false);
+        Invoke("DisableCharacter", 0.1f);
         //3초 후 다시 리스폰된다.
         //Invoke("Respawn", 3f);
     }

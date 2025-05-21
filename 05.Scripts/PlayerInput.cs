@@ -45,6 +45,11 @@ public class PlayerInput : MonoBehaviour
         rotate = dir.x;
     }
 
+    void OnGameStop(InputValue value)
+    {
+        UIManager.Instance.ToggleHelpUI(6, !UIManager.Instance.UI[6].activeSelf);
+    }
+
     void OnJump(InputValue value)
     {
         //Debug.Log("Jump");

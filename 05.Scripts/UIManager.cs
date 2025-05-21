@@ -23,15 +23,19 @@ public class UIManager : MonoBehaviour
 
     public GameObject[] UI;
     public Slider healthSlider; //체력을 표시할 UI 슬라이더
-    [SerializeField] private GameObject Player;
+    public Slider oxygenSlider; //산소량 표시 UI 슬라이더
+    [SerializeField] private GameObject OxygenInfoUI;
+    public GameObject Player;
     [SerializeField] private Image[] Quests;
     [SerializeField] private Image[] ItemIcons;
     [SerializeField] private GameObject[] explainTexts;
     [SerializeField] private GameObject explainImg;
     [SerializeField] private GameObject crossHairImg;
+    [SerializeField] private TextMeshProUGUI floorInfoText;
 
     bool findRequestor = false;
     bool haveKey = false;
+    bool QuestUIIsShow = true;
     int batteryCount = 0;
     int questClearCount = 0;
 
@@ -52,6 +56,13 @@ public class UIManager : MonoBehaviour
         DisableInfoTxt();
         explainImg.SetActive(true);
         explainTexts[0].SetActive(true);
+        UI[4].transform.Find("QuestInfo").gameObject.SetActive(QuestUIIsShow);
+    }
+
+    public void ChangeFloorInfo(int floor)
+    {
+        string floorStr = floor > 0 ? floor.ToString() : "B" + (floor.ToString())[1];
+        floorInfoText.text = $"{floorStr}F";
     }
 
     public void ToggleCrossHair(bool isShow)
@@ -67,6 +78,12 @@ public class UIManager : MonoBehaviour
         explainImg.SetActive(false);
     }
 
+    public void ToggleQuestUI()
+    {
+        QuestUIIsShow = !QuestUIIsShow;
+        UI[4].transform.Find("QuestInfo").gameObject.SetActive(QuestUIIsShow);
+    }
+
     public void ToggleHelpUI(int idx, bool isShow)
     {
         UI[idx].SetActive(isShow);
@@ -77,7 +94,13 @@ public class UIManager : MonoBehaviour
         healthSlider.maxValue = Player.GetComponent<PlayerHealth>().startingHealth;
 
         healthSlider.value = Player.GetComponent<PlayerHealth>().health;
+    }
 
+    public void ResetOxygenBar()
+    {
+        oxygenSlider.maxValue = OxygenInfoUI.GetComponent<OxygenTimer>().startingTime;
+
+        oxygenSlider.value = OxygenInfoUI.GetComponent<OxygenTimer>().remainingTime;
     }
 
     public void UpdateItemIcons(ItemData item)
@@ -97,7 +120,7 @@ public class UIManager : MonoBehaviour
         }
         else if(itemID >= 1 && itemID <= 4)
         {
-            Quests[1].GetComponentInChildren<TextMeshProUGUI>().text = $"Find spaceship batteries ({++batteryCount}/4)";
+            Quests[1].GetComponentInChildren<TextMeshProUGUI>().text = $"우주선 배터리 찾기 ({++batteryCount}/4)";
             if (batteryCount == 4)
             {
                 Quests[1].gameObject.SetActive(false);
@@ -130,8 +153,14 @@ public class UIManager : MonoBehaviour
                         {
                             ui.SetActive(false);
                         }
-                        GameObject.Find("Drake").SetActive(false);
-                        GameObject.Find("AlienSolider").SetActive(false);
+                        try
+                        {
+                            GameObject.Find("Drake").SetActive(false);
+                        }
+                        catch
+                        {
+                            Debug.Log("플레이어를 찾을 수 없습니다.");
+                        }
                         GameManager.Instance.GameClear = true;
                     }
                 }

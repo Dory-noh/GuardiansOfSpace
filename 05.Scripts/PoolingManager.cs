@@ -38,8 +38,8 @@ public class PoolingManager : MonoBehaviour
     {
         StartCoroutine(CreateMonster(CreepPrefab, CreepList));
         StartCoroutine(CreateMonster(SpiderPrefab, SpiderList));
-        StartCoroutine(RespawnMonster(CreepList));
-        StartCoroutine(RespawnMonster(SpiderList));
+        StartCoroutine(RespawnMonster(CreepList, 10));
+        //StartCoroutine(RespawnMonster(SpiderList));
     }
 
     IEnumerator CreateMonster(GameObject monsterPrefab, List<GameObject> monsterList)
@@ -54,12 +54,17 @@ public class PoolingManager : MonoBehaviour
         }
     }
 
-   IEnumerator RespawnMonster(List<GameObject> monsterList)
+    public void RespawnSpider()
     {
-        while (true)
+        StartCoroutine(RespawnMonster(SpiderList, 1));
+    }
+
+   IEnumerator RespawnMonster(List<GameObject> monsterList, int time)
+    {
+        if (GameManager.Instance.IsGameover) yield break;
+        yield return new WaitForSeconds(5f);
+        for (int i = 0; i < time; i++)
         {
-            if (GameManager.Instance.IsGameover) yield break;
-            yield return new WaitForSeconds(5f);
             foreach (var monster in monsterList)
             {
                 if (monster.activeSelf == false)
@@ -68,7 +73,6 @@ public class PoolingManager : MonoBehaviour
                     monster.transform.rotation = Quaternion.identity;
                     monster.gameObject.SetActive(true);
                     yield return new WaitForSeconds(10f);
-                    continue;
                 }
             }
         }

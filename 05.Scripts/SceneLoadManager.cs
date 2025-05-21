@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class SceneLoadManager : MonoBehaviour
 {
     [SerializeField] Animator spaceShipAni;
+    [SerializeField] GameObject waitText;
     readonly int hashIsLobby = Animator.StringToHash("IsLobby");
     readonly int hashStart = Animator.StringToHash("Start");
     private void OnEnable()
@@ -19,12 +20,18 @@ public class SceneLoadManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name=="StartScene" && Input.GetKey(KeyCode.Space))
         {
             spaceShipAni.SetTrigger(hashStart);
+            Invoke("ShowWaitText", 0.2f);
             Invoke("LoadMainScene", 0.35f);
         }
         if (SceneManager.GetActiveScene().name == "MainScene")
         {
             spaceShipAni.SetBool(hashIsLobby, false);
         }
+    }
+
+    private void ShowWaitText()
+    {
+        waitText.SetActive(true);
     }
 
     public void LoadMainScene()

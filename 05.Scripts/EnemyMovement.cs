@@ -54,7 +54,8 @@ public class EnemyMovement : LivingEntity, IEnemy
 
     void Update()
     {
-        if (GameManager.Instance.IsGameover) return;
+        if (GameManager.Instance.GameClear == true || GameManager.Instance.IsGameover == true) return;
+
         //플레이어와 플레어의 동료 중 해당 Enemy와의 거리가 가까운 캐릭터를 타겟으로 삼음.
         target = Vector3.Distance(transform.position, targetArr[0].position) <= Vector3.Distance(transform.position, targetArr[1].position) ? targetArr[0] : targetArr[1];
         if (Vector3.Distance(transform.position, target.position) <= attackDistance)
@@ -153,6 +154,7 @@ public class EnemyMovement : LivingEntity, IEnemy
         }
         Invoke("ChangeKeysParent", 1f);
         Invoke("DisableCharacter", 3f);
+        PoolingManager.Instance.RespawnSpider();
     }
 
     private void ChangeKeysParent()
