@@ -41,6 +41,8 @@ public class EnemyMovement : LivingEntity, IEnemy
         targetArr[0] = GameObject.FindWithTag("Player").transform;
         targetArr[1] = GameObject.FindWithTag("Colleage").transform;
         animators = GetComponentsInChildren<Animator>();
+        if (key != null)
+            key.GetComponent<MeshRenderer>().enabled = false;
         power = 2;
         attackTime = 3f;
     }
@@ -166,7 +168,7 @@ public class EnemyMovement : LivingEntity, IEnemy
             Debug.Log("열쇠 부모 변경");
             // Key 오브젝트의 부모를 MainScene으로 변경
             key.transform.SetParent(keyParent.transform);
-
+            key.GetComponent<MeshRenderer>().enabled = true;
             // Key 오브젝트의 로컬 위치 및 회전을 초기화
             key.transform.localPosition = new Vector3(0, 1.5f, 0);
             key.transform.localRotation = Quaternion.identity;

@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour
     public GameObject[] UI;
     public Slider healthSlider; //체력을 표시할 UI 슬라이더
     public Slider oxygenSlider; //산소량 표시 UI 슬라이더
+    public Slider rotateSlider; //플레이어 회전값 설정 슬라이더
     [SerializeField] private GameObject OxygenInfoUI;
     public GameObject Player;
     [SerializeField] private Image[] Quests;
@@ -57,6 +58,17 @@ public class UIManager : MonoBehaviour
         explainImg.SetActive(true);
         explainTexts[0].SetActive(true);
         UI[4].transform.Find("QuestInfo").gameObject.SetActive(QuestUIIsShow);
+    }
+    public void ChangeRotateValue()
+    {
+        try
+        {
+            Player.GetComponent<PlayerMovement>().rotateSpeed = rotateSlider.value;
+        }
+        catch
+        {
+            Debug.Log("플레이어 연결 오류");
+        }
     }
 
     public void ChangeFloorInfo(int floor)
