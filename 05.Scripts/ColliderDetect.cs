@@ -21,17 +21,17 @@ public class ColliderDetect : MonoBehaviour
             if(isAttack == false)
             {
                 isAttack = true;
-                Debug.Log($"{gameObject.name}이 {other.name} 을 공격하였음.");
+                //Debug.Log($"{gameObject.name}이 {other.name} 을 공격하였음.");
                 otherEntity.OnDamage(parentEntity.power);
                 StartCoroutine(ResetAttackCheck());
             }
         }
-        else
-        {
-            Debug.Log($"{gameObject.transform.parent.name}-{gameObject.name}이 {other.name}을 공격하였다.");
-            if (otherEntity is null) Debug.Log($"{other.name}의 LivingEntity를 찾을 수 없습니다.");
-            else Debug.Log($"{gameObject.transform.parent.name}의 LivingEntity를 찾을 수 없습니다.");
-        }
+        //else
+        //{
+            //Debug.Log($"{gameObject.transform.parent.name}-{gameObject.name}이 {other.name}을 공격하였다.");
+            //if (otherEntity is null) Debug.Log($"{other.name}의 LivingEntity를 찾을 수 없습니다.");
+            //else Debug.Log($"{gameObject.transform.parent.name}의 LivingEntity를 찾을 수 없습니다.");
+        //}
     }
     IEnumerator ResetAttackCheck()
     {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -21,7 +22,15 @@ public class InteractiveOBJ : MonoBehaviour, IItem
     public void Use(GameObject target)
     {
         AddItem(itemData);
-}
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            UIManager.Instance.UI[0].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = itemData.itemName;
+        }
+    }
 
     private void OnTriggerStay(Collider other)
     {
@@ -34,7 +43,9 @@ public class InteractiveOBJ : MonoBehaviour, IItem
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
+        {
             UIManager.Instance.ToggleHelpUI(0, false);
+        }
     }
 
     private void OnDisable()

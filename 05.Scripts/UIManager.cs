@@ -58,6 +58,9 @@ public class UIManager : MonoBehaviour
         explainImg.SetActive(true);
         explainTexts[0].SetActive(true);
         UI[4].transform.Find("QuestInfo").gameObject.SetActive(QuestUIIsShow);
+        rotateSlider.value = 5f;
+        AudioListener.volume = 0.3f;
+        ChangeRotateValue();
     }
     public void ChangeRotateValue()
     {
