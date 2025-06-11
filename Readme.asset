@@ -1,2 +1,36 @@
-Unity Project(2025-02-19 ~ 
-https://victorious-origami-31c.notion.site/pp1-Guardians-Of-Space-19eaba4e1ff18017b68fedbcb49b8328?pvs=4
+# 🎮 [프로젝트명: Space Guardians]
+
+## 📌 개요
+에일리언과 가디언즈 오브 갤럭시에서 영감을 받은 SF 생존 TPS 게임입니다.  
+플레이어는 우주 기지에서 다양한 적과 싸우며 퀘스트를 수행하고 탈출해야 합니다.
+
+## 🛠️ 사용 기술
+- Unity 2022.3.45f1
+- C#
+- NavMesh, Cinemachine, Input System
+- GitHub, WebGL (또는 Windows 빌드)
+
+## 🎮 주요 기능
+| 기능 | 설명 |
+|------|------|
+| TPS 캐릭터 컨트롤 | 이동, 점프, 무기 장착/해제, 근거리/원거리 공격 구현 |
+| AI 시스템 | NavMesh 기반 적/동료 AI 구현 |
+| 퀘스트 시스템 | 열쇠/배터리 수집 후 우주선 탈출 미션 |
+| 전투 시스템 | HP 관리, 데미지 처리, 무기 애니메이션 |
+| UI 시스템 | 퀘스트 진행, 아이템 안내, HP UI 등 구현 |
+| 카메라 연출 | Cinemachine으로 TPS/컷씬 구현 |
+
+## 📂 프로젝트 실행 방법
+1. Unity 2022.3.45f1 이상 설치
+2. 이 저장소 클론
+3. `Assets/Scenes/MainScene.unity` 열기
+4. `Play` 버튼 클릭
+
+## 📘 개발 과정 회고
+> 게임의 구조화, AI 제어, 애니메이션 블렌딩 등을 직접 설계하며 클라이언트 프로그래밍 감각을 익혔습니다.  
+> 플레이어 피드백을 받아 지속적으로 개선하고 있으며, 향후 모바일 대응 및 최적화도 계획 중입니다.
+
+## 🔗 관련 링크
+- 📄 기획서: https://victorious-origami-31c.notion.site/pp1-Guardians-Of-Space-19eaba4e1ff18017b68fedbcb49b8328?pvs=4
+- 📼 플레이 영상: https://img.youtube.com/vi/uhsVq7xkJII/0.jpg)](https://youtu.be/uhsVq7xkJII
+- 💡 개발 회고: https://victorious-origami-31c.notion.site/pp1-Guardians-Of-Space-19eaba4e1ff18017b68fedbcb49b8328?pvs=4
