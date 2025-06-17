@@ -6326,7 +6326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spaceShipAni: {fileID: 153981042}
-  waitText: {fileID: 2133351090}
+  waitText: {fileID: 2133351091}
 --- !u!4 &2115355276
 Transform:
   m_ObjectHideFlags: 0
@@ -6664,7 +6664,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Wait\xB7\xB7\xB7\xB7\xB7\xB7"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: da2c626eda3ca9c449cb91a666e6cfa4, type: 2}
   m_sharedMaterial: {fileID: 5863797216177282745, guid: da2c626eda3ca9c449cb91a666e6cfa4,

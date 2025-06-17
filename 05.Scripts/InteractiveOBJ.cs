@@ -19,7 +19,7 @@ public class InteractiveOBJ : MonoBehaviour, IItem
     }
 
 
-    public void Use(GameObject target)
+    virtual public void Use(GameObject target)
     {
         AddItem(itemData);
     }
