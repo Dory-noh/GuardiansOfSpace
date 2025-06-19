@@ -12,6 +12,9 @@ public class InteractiveItemBox : InteractiveOBJ
     [SerializeField] string closeAnimName = "itemBoxAnimationClose";
     Animation itemBoxAnimation;
 
+    [SerializeField] BoxCollider childCollider;
+    [SerializeField] BoxCollider itemBoxCollider;
+
     bool isOpen = false;
     bool isAnimating = false;
 
@@ -19,10 +22,14 @@ public class InteractiveItemBox : InteractiveOBJ
     {
         audioSource = GetComponent<AudioSource>();
         itemBoxAnimation = GetComponent<Animation>();
+        itemBoxCollider = GetComponent<BoxCollider>();
+        itemBoxCollider.enabled = true;
+        if(childCollider != null ) childCollider.enabled = false;
     }
 
     override public void Use(GameObject target)
     {
+        //애니메이션 중복 재생 방지
         if (isAnimating == true) return;
         StartCoroutine(ToggleItemBox());
 
@@ -33,7 +40,13 @@ public class InteractiveItemBox : InteractiveOBJ
         isAnimating = true;   
         if (!isOpen)
         {
-            audioSource.clip = openSoundClip;
+            //아이템 상자가 비어있지 않으면
+            if (childCollider != null)
+            {
+                itemBoxCollider.enabled = false;
+                childCollider.enabled = true;
+            }
+                audioSource.clip = openSoundClip;
             itemBoxAnimation.Play(openAnimName);
         }
         else

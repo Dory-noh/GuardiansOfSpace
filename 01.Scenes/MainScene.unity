@@ -159103,6 +159103,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 540453793598217471, guid: 031729a7ef10c4aa1b5e0060c2f63acd,
+        type: 3}
+      propertyPath: childCollider
+      value: 
+      objectReference: {fileID: 859293111}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
