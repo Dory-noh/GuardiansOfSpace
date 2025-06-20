@@ -24,7 +24,16 @@ public class InteractiveItemBox : InteractiveOBJ
         itemBoxAnimation = GetComponent<Animation>();
         itemBoxCollider = GetComponent<BoxCollider>();
         itemBoxCollider.enabled = true;
-        if(childCollider != null ) childCollider.enabled = false;
+        try
+        {
+            childCollider = transform.GetChild(3).GetChild(0).GetComponent<BoxCollider>();
+
+        }
+        catch 
+        {
+            
+        }
+        if(childCollider != null) childCollider.enabled = false;
     }
 
     override public void Use(GameObject target)
@@ -43,6 +52,7 @@ public class InteractiveItemBox : InteractiveOBJ
             //아이템 상자가 비어있지 않으면
             if (childCollider != null)
             {
+                yield return new WaitForSeconds(0.3f);
                 itemBoxCollider.enabled = false;
                 childCollider.enabled = true;
             }

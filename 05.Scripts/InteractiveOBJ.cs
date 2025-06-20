@@ -15,9 +15,17 @@ public class InteractiveOBJ : MonoBehaviour, IItem
         {
             UIManager.Instance.UpdateItemIcons(item); // UI 업데이트
             gameObject.SetActive(false); //아이템 획득 후 아이템 비 활성화
+            if(int.Parse(item.itemID) != 0)
+            {
+                Invoke("ActiveItemBox",0.3f);
+            }
         }
     }
 
+    private void ActiveItemBox()
+    {
+        gameObject.transform.parent.parent.GetComponent<BoxCollider>().enabled = true;
+    }
 
     virtual public void Use(GameObject target)
     {

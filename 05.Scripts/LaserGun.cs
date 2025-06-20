@@ -5,6 +5,8 @@ using UnityEngine;
 public class LaserGun : MonoBehaviour
 {
     public LineRenderer lineRenderer;
+    public AudioClip shootingSoundClip;
+    public AudioSource audioSource;
     public Transform FirePos;
     //public GameObject bulletPrefab;
     private float power = 15f;
@@ -12,6 +14,7 @@ public class LaserGun : MonoBehaviour
     readonly int enemyLayerMask = LayerMask.GetMask("Enemy");
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         power = 20f;
         if(lineRenderer == null)
             lineRenderer = GetComponent<LineRenderer>();
@@ -43,11 +46,13 @@ public class LaserGun : MonoBehaviour
 
     IEnumerator ShowLaser(Vector3 hitPoint)
     {
+        
         lineRenderer.SetPosition(0, FirePos.position);
         lineRenderer.SetPosition(1, hitPoint);
         lineRenderer.enabled = true;
-
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.1f);
+        audioSource.PlayOneShot(shootingSoundClip);
+        yield return new WaitForSeconds(0.2f);
 
         lineRenderer.enabled = false;
     }

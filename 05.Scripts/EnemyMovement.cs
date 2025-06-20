@@ -33,9 +33,12 @@ public class EnemyMovement : LivingEntity, IEnemy
     private int hashPunch = Animator.StringToHash("Punch");
 
     public Animator[] animators;
+    public AudioSource audioSource;
+    public AudioClip creeperHowlingClip;
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         originPos = transform.position;
         agent = GetComponent<NavMeshAgent>();
         targetArr[0] = GameObject.FindWithTag("Player").transform;
@@ -127,6 +130,7 @@ public class EnemyMovement : LivingEntity, IEnemy
                 anim.SetTrigger(hashPunch);
             }
             canAttack = false;
+            audioSource.PlayOneShot(creeperHowlingClip);
             StartCoroutine(EnableAttack());
         }
     }
