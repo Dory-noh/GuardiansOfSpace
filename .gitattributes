@@ -2,3 +2,4 @@
 * text=auto
 Assets/build/Build/* filter=lfs diff=lfs merge=lfs -text
 Assets/build/Build/build.data filter=lfs diff=lfs merge=lfs -text
+build/Build/build.data filter=lfs diff=lfs merge=lfs -text
