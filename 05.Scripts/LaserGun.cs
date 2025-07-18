@@ -11,9 +11,10 @@ public class LaserGun : MonoBehaviour
     //public GameObject bulletPrefab;
     private float power = 15f;
 
-    readonly int enemyLayerMask = LayerMask.GetMask("Enemy");
+    int enemyLayerMask;
     void Start()
     {
+        enemyLayerMask = LayerMask.GetMask("Enemy");
         audioSource = GetComponent<AudioSource>();
         power = 20f;
         if(lineRenderer == null)
