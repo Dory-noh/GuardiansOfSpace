@@ -8,7 +8,8 @@ public class PlayerInput : MonoBehaviour
     PlayerMovement movement;
     public float posX { get; private set; }
     public float posY { get; private set; }
-    public float rotate { get; private set; }
+    public float rotateY { get; private set; }
+    public float rotateX { get; private set; }
     public bool fire = false;
     public bool reload = false;
     public bool jump = false;
@@ -42,7 +43,8 @@ public class PlayerInput : MonoBehaviour
     {
        // Debug.Log("RotateToMouseX");
         Vector2 dir = value.Get<Vector2>();
-        rotate = dir.x;
+        rotateY = dir.x;
+        rotateX = dir.y;
     }
 
     void OnGameStop(InputValue value)

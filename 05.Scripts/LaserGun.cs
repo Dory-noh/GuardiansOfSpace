@@ -25,8 +25,11 @@ public class LaserGun : MonoBehaviour
 
     public void Shoot()
     {
+
+        Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
         RaycastHit hit;
-        if (Physics.Raycast(FirePos.position, transform.forward, out hit, 30f))
+        
+        if (Physics.Raycast(ray, out hit, 30f)) //FirePos.position, transform.forward
         {
             Debug.Log($"{hit.transform.parent.gameObject.name} 감지 성공");
             LivingEntity enemy = hit.transform.GetComponentInParent<LivingEntity>();
@@ -40,9 +43,16 @@ public class LaserGun : MonoBehaviour
             {
                 Debug.Log($"총알 공격 실패");
             }
-                
+            FirePos.forward = (hit.point - FirePos.position).normalized;
             StartCoroutine(ShowLaser(hit.point));
         }
+        else
+        {
+            Vector3 missPoint = ray.origin + ray.direction * 30f;
+            FirePos.forward = (missPoint - FirePos.position).normalized;
+            StartCoroutine(ShowLaser(missPoint));
+        }
+        
     }
 
     IEnumerator ShowLaser(Vector3 hitPoint)

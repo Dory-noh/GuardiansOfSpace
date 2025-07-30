@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Timeline;
 
 public class PlayerMovement : MonoBehaviour, IPlayer
 {
@@ -31,6 +32,10 @@ public class PlayerMovement : MonoBehaviour, IPlayer
     private CharacterController cc;
     private Animator animator;
     public GameObject Gun;
+
+    public GameObject gunPos;
+    float currentXRotation = 0f;
+    
     public Transform gunRightHandAttachment;
     public Transform gunBackAttachment;
     IItem item;
@@ -107,7 +112,7 @@ public class PlayerMovement : MonoBehaviour, IPlayer
                 animator.SetBool(hashIsGun, isGun);
                 UIManager.Instance.ToggleCrossHair(false);
                 break;
-            case WeaponMode.GUN:
+            case WeaponMode.GUN: 
                 targetOffsetX = 1f;
                 Gun.transform.position = gunRightHandAttachment.transform.position;
                 Gun.transform.rotation = gunRightHandAttachment.rotation;
@@ -121,6 +126,7 @@ public class PlayerMovement : MonoBehaviour, IPlayer
         {
             currentOffsetX = Mathf.SmoothDamp(currentOffsetX, targetOffsetX, ref velocityOffsetX, offsetSmoothTime);
             VCTransposer.m_FollowOffset = new Vector3(currentOffsetX, VCTransposer.m_FollowOffset.y, VCTransposer.m_FollowOffset.z);
+            
         }
 
         if (isStop == false)
@@ -170,7 +176,15 @@ public class PlayerMovement : MonoBehaviour, IPlayer
     private void Rotate()
     {
         //Quaternion targetRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y * input.rotate, 0);
-        transform.rotation *= Quaternion.Euler(0, input.rotate * rotateSpeed * Time.deltaTime, 0);
+        transform.rotation *= Quaternion.Euler(0, input.rotateY * rotateSpeed * Time.deltaTime, 0);
+        virtualCamera.GetCinemachineComponent<CinemachineComposer>().m_TrackedObjectOffset.y = Mathf.Clamp(virtualCamera.GetCinemachineComponent<CinemachineComposer>().m_TrackedObjectOffset.y + input.rotateX * 0.001f,1f,3.2f);
+        
+        float deltaX = input.rotateX * rotateSpeed * Time.deltaTime;
+        
+        currentXRotation = Mathf.Clamp(currentXRotation + deltaX, -45f, 45f);
+
+        gunPos.transform.localRotation *= Quaternion.Euler(-currentXRotation,0,0);
+
     }
     private void Move()
     {

@@ -1,0 +1,4 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+build/build.data filter=lfs diff=lfs merge=lfs -text
+Build/SpaceGuardiansBuild.data filter=lfs diff=lfs merge=lfs -text
